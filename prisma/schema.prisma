@@ -25,3 +25,12 @@ model User{
 
 @@map("users")
 }
+
+model Post{
+  id String @id @default(uuid())
+  titel String
+  thumbnell String?
+  content String
+
+  @@map("posts")
+}

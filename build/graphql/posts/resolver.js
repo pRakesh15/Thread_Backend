@@ -8,27 +8,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.resolvers = void 0;
-const user_1 = __importDefault(require("../../services/user"));
-const queries = {
-    getUserToken: (_, payload) => __awaiter(void 0, void 0, void 0, function* () {
-        const token = yield user_1.default.getUserToken({
-            email: payload.email,
-            password: payload.password
-        });
-        return token;
-    })
-};
+const db_1 = require("../../lib/db");
+const queries = {};
 //mutation is a graphQl part
 const mutations = {
     //createUser function totaly based on prisma
-    createUser: (_, payload) => __awaiter(void 0, void 0, void 0, function* () {
-        const res = yield user_1.default.createUser(payload);
-        return res.id;
+    createPost: (_, { titel, content }) => __awaiter(void 0, void 0, void 0, function* () {
+        yield db_1.prismaClient.post.create({
+            data: {
+                titel,
+                content
+            },
+        });
+        return "post created successfully";
     }),
 };
 exports.resolvers = { queries, mutations };

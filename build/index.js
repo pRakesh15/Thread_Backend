@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const express4_1 = require("@apollo/server/express4");
 const graphql_1 = require("./graphql");
+const user_1 = __importDefault(require("./services/user"));
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 //creating a graphql server
@@ -26,7 +27,19 @@ function init() {
                 message: "Jay Shree RAM"
             });
         });
-        app.use("/graphql", (0, express4_1.expressMiddleware)(yield (0, graphql_1.createGraphqlServer)()));
+        app.use("/graphql", (0, express4_1.expressMiddleware)(yield (0, graphql_1.createGraphqlServer)(), {
+            context: ({ req }) => __awaiter(this, void 0, void 0, function* () {
+                //@ts-ignore
+                const token = req.headers["token"];
+                try {
+                    const user = user_1.default.decodeJWTToken(token);
+                    return { user };
+                }
+                catch (error) {
+                    return {};
+                }
+            })
+        }));
         app.listen(8080, () => {
             console.log(`server started at port 8080`);
         });

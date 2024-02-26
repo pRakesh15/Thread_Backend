@@ -54,10 +54,17 @@ class UserService {
 
       if(usershasedPassword!==user.password) throw new Error('incorrect Password');
 
-      //Gen a token
+      //Get a token
       const token=JWT.sign({id:user.id,email:user.email},JWT_SECRET)
 
       return token;
+    }
+    public static decodeJWTToken(token:string){
+        return JWT.verify(token,JWT_SECRET);
+    }
+    public static getUserByid(id:string)
+    {
+        return prismaClient.user.findUnique({where:{id}})
     }
 
 }

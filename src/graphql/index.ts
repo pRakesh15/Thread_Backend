@@ -6,9 +6,11 @@ export const createGraphqlServer=async()=>
     const graphqlServer = new ApolloServer({
         //here type defination is a sechema..
         typeDefs: `
+        ${User.typeDefs}
         type Query{
            ${User.queries},
-           ${Post.queries}
+           ${Post.queries},
+          
         }
         type Mutation{
             ${User.mutations},

@@ -17,9 +17,11 @@ const createGraphqlServer = () => __awaiter(void 0, void 0, void 0, function* ()
     const graphqlServer = new server_1.ApolloServer({
         //here type defination is a sechema..
         typeDefs: `
+        ${index_1.User.typeDefs}
         type Query{
            ${index_1.User.queries},
-           ${index_2.Post.queries}
+           ${index_2.Post.queries},
+          
         }
         type Mutation{
             ${index_1.User.mutations},

@@ -1,4 +1,5 @@
 import { prismaClient } from "../../lib/db";
+import  PostService, { CreatePostPayload } from "../../services/post";
 
  const queries={
 
@@ -6,17 +7,9 @@ import { prismaClient } from "../../lib/db";
 //mutation is a graphQl part
  const mutations={
     //createUser function totaly based on prisma
-    createPost: async (_:any,
-        { titel, content }
-            :
-            { titel: string; content: string;}) => {
-    await prismaClient.post.create({
-        data:{
-           titel,
-           content
-        },
-    });
-    return "post created successfully";
+    createPost: async (_:any,payload:CreatePostPayload) => {
+    const res=await PostService.createPost(payload)
+    return res.id
     },
  };
 

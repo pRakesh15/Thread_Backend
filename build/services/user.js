@@ -48,10 +48,16 @@ class UserService {
             const usershasedPassword = UserService.generateHash(userSalt, password);
             if (usershasedPassword !== user.password)
                 throw new Error('incorrect Password');
-            //Gen a token
+            //Get a token
             const token = jsonwebtoken_1.default.sign({ id: user.id, email: user.email }, JWT_SECRET);
             return token;
         });
+    }
+    static decodeJWTToken(token) {
+        return jsonwebtoken_1.default.verify(token, JWT_SECRET);
+    }
+    static getUserByid(id) {
+        return db_1.prismaClient.user.findUnique({ where: { id } });
     }
 }
 exports.default = UserService;

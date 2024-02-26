@@ -15,18 +15,28 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.resolvers = void 0;
 const user_1 = __importDefault(require("../../services/user"));
 const queries = {
+    //it is for fetch data...
     getUserToken: (_, payload) => __awaiter(void 0, void 0, void 0, function* () {
         const token = yield user_1.default.getUserToken({
             email: payload.email,
             password: payload.password
         });
         return token;
+    }),
+    getCurrentLoggedInUser: (_, parameters, context) => __awaiter(void 0, void 0, void 0, function* () {
+        if (context && context.user) {
+            const id = context.user.id;
+            const user = yield user_1.default.getUserByid(id);
+            return user;
+        }
+        throw new Error("i dont know who is the user");
     })
 };
-//mutation is a graphQl part
+//mutation is a graphQl part for create somthing for databases
 const mutations = {
     //createUser function totaly based on prisma
     createUser: (_, payload) => __awaiter(void 0, void 0, void 0, function* () {
+        //here we use some function of service layer....
         const res = yield user_1.default.createUser(payload);
         return res.id;
     }),
